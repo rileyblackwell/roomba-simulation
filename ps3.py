@@ -10,10 +10,7 @@ import random
 import ps3_visualize
 import pylab
 
-# For python 2.7:
-from ps3_verify_movement27 import test_robot_movement
-
-
+ 
 # === Provided class Position
 class Position(object):
     """
@@ -81,8 +78,8 @@ class RectangularRoom(object):
         height: an integer > 0
         dirt_amount: an integer >= 0
         """
-        self.width = width
-        self.height = height
+        self.width = math.floor(width)
+        self.height = math.floor(height)
         self.dirt_amount = dirt_amount
         self.room = {}
         for x in range(self.width):
@@ -530,6 +527,7 @@ def run_simulation(num_robots, speed, capacity, width, height, dirt_amount, min_
     robot_type: class of robot to be instantiated (e.g. StandardRobot or
                 FaultyRobot)
     """
+    # simulates 1 trial for num_trials storing the number of time steps and then dividing by num_trials.
     total_timesteps = 0
     for trial in range(num_trials):
         room = create_room(width, height, dirt_amount)
@@ -552,12 +550,16 @@ def run_simulation(num_robots, speed, capacity, width, height, dirt_amount, min_
 # 1)How does the performance of the two robot types compare when cleaning 80%
 #       of a 20x20 room?
 #
-#
+# On average StandardRobot performances roughly 20% faster than FaultyRobot.  There is some amount of variabilty in the performance
+# spread as the number of robots grows but for the most part the perfomace of StandardRobot is better than FalultyRobot by (20% +- 2%).     
+# 
 # 2) How does the performance of the two robot types compare when two of each
 #       robot cleans 80% of rooms with dimensions 
 #       10x30, 20x15, 25x12, and 50x6?
-#
-#
+# For the lowest aspect ratio 20x15 FaultyRobot performs about 20% slower than StandardRobot.  For the highest aspect ratio 50x6 
+# FaultyRobot performs about 40% slower than StandardRobot.  While the time to clean the rooom grows consistly for both robots as
+# the aspect ratio increases, it appears that the time for FaultyRobot to clean the room grows at a rate a little more then 4x the rate of StandardRobot.  
+# FaulyRobot grows about 36 time steps per 1 increase in aspect ratio.  StandardRobot grows about 8 time steps per 1 increase in aspect ratio.
 
 def show_plot_compare_strategies(title, x_label, y_label):
     """
@@ -601,5 +603,5 @@ def show_plot_room_shape(title, x_label, y_label):
     pylab.show()
 
 
-#show_plot_compare_strategies('Time to clean 80% of a 20x20 room, for various numbers of robots','Number of robots','Time / steps')
-#show_plot_room_shape('Time to clean 80% of a 300-tile room for various room shapes','Aspect Ratio', 'Time / steps')
+# show_plot_compare_strategies('Time to clean 80% of a 20x20 room, for various numbers of robots','Number of robots','Time / steps')
+# show_plot_room_shape('Time to clean 80% of a 300-tile room for various room shapes','Aspect Ratio', 'Time / steps')

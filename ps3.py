@@ -10,7 +10,10 @@ import random
 import ps3_visualize
 import pylab
 
- 
+# For python 2.7:
+from ps3_verify_movement27 import test_robot_movement
+
+
 # === Provided class Position
 class Position(object):
     """
